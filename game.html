@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <h1>Rock Paper Scissors in Console</h1>
+<script>
+function game(){
+    let start = prompt("Would you like to play a game out of five of Rock, Paper Scissors? (yes/no)")
+    
+    while (start.toLowerCase() !== "yes" && start.toLowerCase() !== "no")
+    {
+        start = prompt("Invalid input.  Enter 'yes' or 'no'. ")
+    }
+
+    if (start.toUpperCase() === "NO") 
+    {
+        console.log("Goodbye");
+        return false;
+    }
+
+    while (start.toLowerCase() === "yes")
+    {
+        let playerScore = 0;
+        let computerScore = 0;
+       
+        for (let i = 0; i < 5; i++)
+        {
+          
+          let result = play(); 
+           if (result.slice(0, 3) == "Sor")
+         {
+              ++computerScore;
+         }
+         else if (result.slice(0,3) == "Con")
+         {
+             ++playerScore;
+         }
+          console.log(result); 
+          console.log("The Score is now player: " + playerScore + " computer: " + computerScore + ".");
+          if (playerScore > 4 - i)
+          {
+              let matches = i + 1
+              let final = "You have won the game! You have scored " + playerScore + " while the computer has scored "
+              + computerScore + " in a total of " + matches  + " matches."
+              break;
+          }
+          if (computerScore === playerScore && i == 4)
+            {
+                let final = "You have played all 5 matches and have tied with the computer with a score of " + 
+                computerScore + ".";
+                break;
+            }
+          if(computerScore > 4 - i)
+          {
+            let matches = i + 1
+              let final = "You have lost the game! You have scored " + playerScore + " while the computer has scored "
+              + computerScore + " in a total of " + matches  + " matches."
+              break;
+          }       
+        }
+        start = prompt("Would you like to play again? (yes / no)");
+
+        while (start.toLowerCase() !== "yes" && start.toLowerCase() !== "no")
+         {
+            start = prompt("Invalid input.  Enter 'yes' or 'no'. ")
+         }
+        
+    }
+    return false;
+}
+
+    function play()
+    {
+        let player = prompt("Choose either Rock, Paper, or Scissors");
+        let computer = computerPlay();
+        let outcome = winner(player, computer);
+        if (outcome === "lost")
+        {
+            return "Sorry, you have lost.  You chose " + player.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
+;
+        }
+        else if (outcome == "tie")
+        {
+            return "You have tied.  Both you and the computer chose " + player.toLowerCase() + ".";
+;
+        }
+        else
+        {
+            return "Congratulations! You have won! You chose " + player.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
+;
+        }
+        return "";
+
+        
+    }
+
+    function computerPlay()
+    {
+        let options = ["Rock", "Paper", "Scissors"];
+        let pick = getRandomInt(3);
+        return options[pick];
+    }
+
+    function winner(player, computer)
+    {
+        //There is probably a better way to code this.
+         
+        if (player.toUpperCase() === "SCISSORS" && computer === "Rock") return "lost";
+        if (player.toUpperCase() === "ROCK" && computer === "Rock") return "tie";
+        if (player.toUpperCase() === "PAPER" && computer === "Rock") return "won";
+        if (player.toUpperCase() === "SCISSORS" && computer === "Paper") return "won";
+        if (player.toUpperCase() === "ROCK" && computer === "Paper") return "lost";
+        if (player.toUpperCase() === "PAPER" && computer === "Paper") return "tie";
+        if (player.toUpperCase() === "SCISSORS" && computer === "Scissors") return "tie";
+        if (player.toUpperCase() === "ROCK" && computer === "Scissors") return "won";
+        if (player.toUpperCase() === "PAPER" && computer === "Scissors") return "lost";
+    }
+
+    function getRandomInt(num)
+    {
+        return Math.floor(Math.random() * Math.floor(num));
+    }
+</script>
+</body>
+</html>
