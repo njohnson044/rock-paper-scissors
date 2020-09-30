@@ -2,22 +2,26 @@
 <head>
     <title>Rock Paper Scissors</title>
     <style>
+
         body {
-            background-color:  rgb(197, 234, 245);
+            background-color:  white;
+            display: flex;
+            justify-content: center;
         }
+
         h1 {
             
             text-align: center;
-            background-color:rgb(197, 234, 245);
-            color: rgb(247, 209, 104);
+            color: rgb(153, 87, 49);
             font-family:Arial, Helvetica, sans-serif;
             position: relative;
-            width: 50%;
-            left: 25%;
-            right: 25%;
-            padding: 15px;
-        }
-        .startGame {
+            width: 100%;
+            padding-top: 30px;
+            margin-top: 0px;
+            padding-bottom: 30px;
+            }
+
+        #startGame {
             position:relative;
             left: 35%;
             right: 35%;
@@ -25,157 +29,149 @@
             padding: 10px;
             font-size: medium;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            
-        }
+            background-color:rgb(255, 183, 195);
+            border-radius: 5px;
+            border-color: rgba(209, 104, 121, 0.973);
+          }
+
+          div {
+              top: 0px;
+              position:fixed;
+              height: 100%;
+              width: 70%;
+              background:linear-gradient(rgb(225, 240, 245), rgb(155, 220, 240), rgb(203, 161, 231));
+          }
 
     </style>
 </head>
+
 <body>
-    <h1>Rock Paper Scissors</h1> <br>
-    <button class="startGame" onclick = "game()">Press to Start Game</button>
     <div>
-        
-        <p class ="para1"></p>
-        <input type = "text">
-        <button class="userInput" onclick= "entered()">Submit</button>
-         <p class ="para2"></p>
+        <h1>Rock Paper Scissors</h1>
+        <button id="startGame" onclick = "game()">Press to Start Game</button> 
     </div>
 
 <script>
-//start game - make sure they say yes
-//p1 ask for rock paper or scissors.  only accept rock paper or scissors
-//onclick submit button, start function to generate computer input,
-//how the game went, and who won / lost.  only one function uses document values.
-//p2 says who won, and keeps score.
 
 function game()
 {
-
-    let start = prompt("Would you like to play a game out of five of Rock, Paper Scissors? (yes/no)")
+    let start = prompt("Would you like to play a game out of five of Rock, Paper Scissors? (yes/no)");
     
     while (start.toLowerCase() !== "yes" && start.toLowerCase() !== "no")
     {
-        start = prompt("Invalid input.  Enter 'yes' or 'no'. ")
+        start = prompt("Invalid input.  Enter 'yes' or 'no'. ");
     }
 
     if (start.toLowerCase() === "no") 
     {
+        alert("Goodbye");
         return false;
     }
 
     while (start.toLowerCase() === "yes")
     {
-        const para1 = document.querySelector('p.para1');
-
         let playerScore = 0;
         let computerScore = 0;
        
         for (let i = 0; i < 5; i++)
-        {
+        {   
           
-          para1.textContent = "Enter rock, paper, or scissors";
-          
-          if (entered() === true)
-          {
-          let result = play(); 
+            let result = play();
 
 
-           if (result.slice(0, 3) == "Sor")
-         {
-              ++computerScore;
-         }
-         else if (result.slice(0,3) == "Con")
-         {
-             ++playerScore;
-         }
+            if (result.slice(0, 3) == "Sor")
+            {
+                ++computerScore;
+            }
+             else if (result.slice(0,3) == "Con")
+            {
+                ++playerScore;
+            }
           
-          const para2 = document.querySelector("para2");
-          para2 = result + " The Score is now player: " + playerScore + " computer: " + computerScore + "."
+        
+            alert(result + " The Score is now player: " + playerScore + " Computer: " + computerScore + ".");
           
-          if (finished())
-          {
-              break;
-          }
-          
-          }       
+            if (finished(playerScore, computerScore, i))
+            {
+                break;
+            }                
         }
+
         start = prompt("You have finished the game. Would you like a rematch? (yes / no)");
 
         while (start.toLowerCase() !== "yes" && start.toLowerCase() !== "no")
-         {
+        {
             start = prompt("Invalid input.  Enter 'yes' or 'no'. ")
-         }
+        }
         
     }
     return false;
 }
 
-    function finished()
+    function finished(playerScore, computerScore, i)
     {
-        const para2 = document.querySelector("para2");
-        if (playerScore > 4 - i)
-          {
-              let matches = i + 1
-              let final = "You have won the game! You have scored " + playerScore + " while the computer has scored "
-              + computerScore + " in a total of " + matches  + " matches."
-              para2 = final;
-              return true;
-          }
+        
+        if (playerScore - computerScore > 4 - i)
+            {
+                let matches = i + 1
+                let final = "You have won the game! You have scored " + playerScore + " while the computer has scored "
+                 + computerScore + " in a total of " + matches  + " matches."
+                alert(final);
+                return true;
+            }
+
           if (computerScore === playerScore && i == 4)
             {
                 let final = "You have played all 5 matches and have tied with the computer with a score of " + 
                 computerScore + ".";
-                para2 = final;
+                alert (final);
                 return true;
             }
-          if(computerScore > 4 - i)
-          {
-            let matches = i + 1
-              let final = "You have lost the game! You have scored " + playerScore + " while the computer has scored "
-              + computerScore + " in a total of " + matches  + " matches."
-              para2 = final;
-              return true;
-          }
-          return false;
+
+          if(computerScore - playerScore > 4 - i)
+            {
+                let matches = i + 1
+                let final = "You have lost the game! You have scored " + playerScore + " while the computer has scored "
+                + computerScore + " in a total of " + matches  + " matches."
+                alert(final);
+                return true;
+            }
+
+            return false;
     }
 
     function entered()
     {
-        const input = document.querySelector('input');
-        const para2 = document.querySelector('para2');
+        let player = prompt("Enter Rock, Paper, or Scissors");
 
-        while (input.toLowerCase() !== "rock" && input.toLowerCase() != "paper" && input.toLowerCase() != "scissors")
+        while (player.toLowerCase() !== "rock" && player.toLowerCase() != "paper" && player.toLowerCase() != "scissors")
         {
-            para2.textContent = "Invalid input.  Enter either rock, paper, or scissors.";
+            player = prompt("Invalid input.  Enter either rock, paper, or scissors.");
         }
-        return true;
+        return player;
     }
 
     function play()
     {
-       
-        const input = document.querySelector('input');
-
+        let player = entered();
         let computer = computerPlay();
-        let outcome = winner(input, computer);
+        let outcome = winner(player, computer);
         if (outcome === "lost")
         {
-            return "Sorry, you have lost.  You chose " + input.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
+            return "Sorry, you have lost.  You chose " + player.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
 ;
         }
         else if (outcome == "tie")
         {
-            return "You have tied.  Both you and the computer chose " + input.toLowerCase() + ".";
+            return "You have tied.  Both you and the computer chose " + player.toLowerCase() + ".";
 ;
         }
         else
         {
-            return "Congratulations! You have won! You chose " + input.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
+            return "Congratulations! You have won! You chose " + player.toLowerCase() + " and the computer chose " + computer.toLowerCase() + ".";
 ;
         }
-        return "";
-
-        
+        return "";   
     }
 
     function computerPlay()
